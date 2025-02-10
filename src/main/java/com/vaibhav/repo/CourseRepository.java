@@ -2,6 +2,8 @@ package com.vaibhav.repo;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface CourseRepository extends JpaRepository<T, ID> {
+import com.vaibhav.entites.Course;
+
+public interface CourseRepository extends JpaRepository<Course, Integer> {
 
 }
