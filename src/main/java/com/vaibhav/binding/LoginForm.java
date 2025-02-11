@@ -1,4 +1,4 @@
-package com.vaibhav.request;
+package com.vaibhav.binding;
 
 public class LoginForm {
 
