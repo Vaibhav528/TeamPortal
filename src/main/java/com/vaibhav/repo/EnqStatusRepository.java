@@ -1,11 +1,10 @@
 package com.vaibhav.repo;
 
-//import org.springframework.data.jpa.repository.JpaRepository;
-//
-//import com.vaibhav.entites.EnqStatus;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface EnqStatusRepository 
-//extends JpaRepository<EnqStatus, Integer> 
+import com.vaibhav.entites.EnqStatus;
+
+public interface EnqStatusRepository extends JpaRepository<EnqStatus, Integer> 
 {
 
 }

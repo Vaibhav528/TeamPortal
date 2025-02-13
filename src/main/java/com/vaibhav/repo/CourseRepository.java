@@ -1,11 +1,10 @@
 package com.vaibhav.repo;
 
-//import org.springframework.data.jpa.repository.JpaRepository;
-//
-//import com.vaibhav.entites.Course;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface CourseRepository 
-//extends JpaRepository<Course, Integer> 
+import com.vaibhav.entites.Course;
+
+public interface CourseRepository extends JpaRepository<Course, Integer> 
 {
 
 }

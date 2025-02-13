@@ -1,5 +1,12 @@
 package com.vaibhav.binding;
 
-public class DashBoardResponse {
+import lombok.Data;
 
+@Data
+public class DashBoardResponse
+{
+
+	private Integer totalEnquriesCnt;
+	private Integer enrollesCnt;
+	private Integer lostCnt;
 }
