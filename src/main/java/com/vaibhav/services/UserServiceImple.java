@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.vaibhav.binding.SignUpForm;
+import com.vaibhav.binding.UnlockForm;
 import com.vaibhav.entites.UserDtls;
 import com.vaibhav.repo.UserDtlsRepository;
 import com.vaibhav.utility.EmailUtils;
@@ -18,6 +19,22 @@ public class UserServiceImple implements UserService
 	
 	@Autowired
 	private EmailUtils emailUtils;
+	
+	@Override
+	public boolean unlockAccount(UnlockForm form)
+	{
+		UserDtls entity = userDtlsRepo.findByEmail(form.getEmail());
+		if(entity.getPassword().equals(form.getTempPwd()))
+		{
+			entity.setPassword(form.getNewPwd());
+			entity.setAccountStatus("Unlocked");
+			userDtlsRepo.save(entity);
+			return true;
+		}else {
+			return false;
+		}
+	}
+	
 	
 	@Override
 	public boolean signUp(SignUpForm form)
@@ -42,20 +59,23 @@ public class UserServiceImple implements UserService
 		
 		entity.setAccountStatus("Locked");
 		
-		// Insert Record.
+		// Insert Record.    
 		
 		userDtlsRepo.save(entity);
 		
-		//Send email to unlock the account.
-		
-		String to =form.getEmail();
-		String subject="Unlock Your Account";
-		StringBuffer body = new StringBuffer("");
-		body.append("<h1> Use Below Temporary Password to unlock the Account</h1>");
-		body.append("temporary Password:"+ tempPwd);
-		body.append("<a href=\"localhost:8080/unlock?email="+ to+"\">Click Here to Unlock Your Account");
-		emailUtils.sendEmail(to, subject, body.toString());
+		// Send email to unlock the account
+        String to = form.getEmail();
+        String subject = "Unlock Your Account";
+        StringBuilder body = new StringBuilder();
+        body.append("<h1>Use the temporary password below to unlock your account</h1>")
+            .append("<p>Temporary Password: <strong>").append(tempPwd).append("</strong></p>")
+            .append("<br/>")
+            .append("<a href=\"http://localhost:8080/unlock?email=")
+            .append(to)
+            .append("\">Click here to unlock your account</a>");
+
+        emailUtils.sendEmail(to, subject, body.toString());
 		return true;
 	}
-
+	
 }

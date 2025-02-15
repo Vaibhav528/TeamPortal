@@ -9,3 +9,4 @@ public interface UserDtlsRepository extends JpaRepository<UserDtls , Integer>
 	public UserDtls findByEmail(String email);
 
 }
+ 
