@@ -12,6 +12,8 @@ import com.vaibhav.repo.UserDtlsRepository;
 import com.vaibhav.utility.EmailUtils;
 import com.vaibhav.utility.PwdUtils;
 
+import jakarta.servlet.http.HttpSession;
+
 @Service
 public class UserServiceImple implements UserService 
 {
@@ -21,11 +23,14 @@ public class UserServiceImple implements UserService
 	@Autowired
 	private EmailUtils emailUtils;
 	
+	@Autowired
+	private HttpSession session;
+	
 	@Override
 	public String login(LoginForm form)
 	{
 		UserDtls entity = 
-				userDtlsRepo.findByEmailAndPassword(form.getEmail(), form.getPwd());
+				userDtlsRepo.findByEmailAndPassword(form.getEmail(), form.getPassword());
 		if(entity==null)
 		{
 			return "Invalid Credentials";		
@@ -34,6 +39,8 @@ public class UserServiceImple implements UserService
 		{
 			 return "Your Account Locked"; 
 		}
+		// create session and store user data in session
+		session.setAttribute("userId", entity.getUserId());
 		
 		return "Successfull login";	
 		}

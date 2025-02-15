@@ -3,6 +3,7 @@ package com.vaibhav.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -12,11 +13,19 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.vaibhav.binding.LoginForm;
 import com.vaibhav.binding.SignUpForm;
 import com.vaibhav.binding.UnlockForm;
+import com.vaibhav.entites.UserDtls;
+import com.vaibhav.repo.UserDtlsRepository;
 import com.vaibhav.services.UserService;
+
+import jakarta.servlet.http.HttpSession;
+import jakarta.validation.Valid;
 
 @Controller
 public class UserController 
 {
+	@Autowired
+	private UserDtlsRepository userDtlsRepo;
+	
 	@Autowired
 	private UserService userService;
 	
@@ -134,21 +143,45 @@ public class UserController
 		return "login";
 	}
 	
-	
 	@PostMapping("/login")
-	public String Login(@ModelAttribute("loginForm") LoginForm loginform , Model model) 
-	{
-		String status = userService.login(loginform);
-		if(status .contains("sucess"))
-		{
-			return "redirect:/dashboard";
-		}
-		model.addAttribute(" " , status);
-		
-		return "login";
+	public String login(@ModelAttribute("loginForm") LoginForm loginForm, Model model, HttpSession session) {
+	    // Find user in database
+	    UserDtls user = userDtlsRepo.findByEmailAndPassword(loginForm.getEmail(), loginForm.getPassword());
+
+	    if (user == null) {
+	        model.addAttribute("errMsg", "Invalid email or password.");
+	        return "login"; // Return to login page with error message
+	    }
+
+//	    if (!"active".equalsIgnoreCase(user.getAccountStatus())) {
+//	        model.addAttribute("errMsg", "Account is locked. Check your email.");
+//	        return "login";
+//	    }
+
+	    // Store user in session (optional)
+	    session.setAttribute("loggedInUser", user);
+
+	    return "redirect:/dashboard"; // Redirect to dashboard upon successful login
 	}
+
+
+
+
 	
 	
+//	@PostMapping("/login")
+//	public String Login(@ModelAttribute("loginForm") LoginForm loginform , Model model) 
+//	{
+//		String status = userService.login(loginform);
+//		if(status .contains("sucess"))
+//		{
+//			
+//			return "redirect:/dashboard";
+//		}
+//		model.addAttribute(" " , status);
+//		
+//		return "login";
+//	}
 	
 	@GetMapping("/forgot")
 	public String forgotPwdPage()
