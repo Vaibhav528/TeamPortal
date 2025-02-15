@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -26,12 +26,12 @@
             padding: 10px;
         }
     </style>
-    <script>
+   <!-- <script>
     function redirectToUnlock(event) {
         event.preventDefault(); // Prevent form from submitting normally
         window.location.href = "unlock"; // Redirect to unlock page
     }
-</script>
+</script> !-->
     
 </head>
 <body class="bg-light">
@@ -61,11 +61,15 @@
 
 <div class="container d-flex justify-content-center align-items-center min-vh-75">
     <div class="card p-4 shadow" style="width: 400px;">
+    
+    <p th:text="${successMsg}" class="text-success"></p>
+     <p th:text="${errMsg}" class="text-danger"></p>
+     
         <h3 class="text-center mb-4">Forgot Password</h3>
-        <form onsubmit="redirectToUnlock(event)">
+        <form th:action="@{/forgotPwd}" method="POST"  onsubmit="redirectToUnlock(event)">
             <div class="mb-3">
                 <label for="email" class="form-label">Email address</label>
-                <input type="email" class="form-control" id="email" placeholder="Enter your email">
+                <input type="email" class="form-control" id="email" name="email" placeholder="Enter your email">
             </div>
             <button type="submit" class="btn btn-primary w-100">Reset Password</button>
         </form>

@@ -4,6 +4,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.vaibhav.binding.LoginForm;
 import com.vaibhav.binding.SignUpForm;
 import com.vaibhav.binding.UnlockForm;
 import com.vaibhav.entites.UserDtls;
@@ -19,6 +20,24 @@ public class UserServiceImple implements UserService
 	
 	@Autowired
 	private EmailUtils emailUtils;
+	
+	@Override
+	public String login(LoginForm form)
+	{
+		UserDtls entity = 
+				userDtlsRepo.findByEmailAndPassword(form.getEmail(), form.getPwd());
+		if(entity==null)
+		{
+			return "Invalid Credentials";		
+		}
+		if(entity.getAccountStatus().equals("Locked"))
+		{
+			 return "Your Account Locked"; 
+		}
+		
+		return "Successfull login";	
+		}
+	 
 	
 	@Override
 	public boolean unlockAccount(UnlockForm form)
@@ -75,6 +94,27 @@ public class UserServiceImple implements UserService
             .append("\">Click here to unlock your account</a>");
 
         emailUtils.sendEmail(to, subject, body.toString());
+		return true;
+	}
+	
+	
+	@Override
+	public boolean forgotPwd(String email)
+	{
+		// check for record.
+		UserDtls entity = userDtlsRepo.findByEmail(email);
+		 
+		//if record not there then error
+		if(entity==null)
+		{
+			return false;
+		}
+		 
+		//if record available then send password to mail.
+		 String Subject="Recover Password";
+		 String body="Your Pwd::" + entity.getPassword();
+		 emailUtils.sendEmail(email, Subject, body);
+		 
 		return true;
 	}
 	

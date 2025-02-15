@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -73,14 +73,15 @@
 
         <div class="login-container">
             <h2 class="text-center">Login</h2>
-            <form onsubmit="return loginUser(event)">
+            <p th:text="${errMsg}" class="text-danger"></p>
+            <form th:action="@{/login}" th:object="${loginForm}" method="POST"onsubmit="return loginUser(event)">
                 <div class="mb-3">
                     <label for="email" class="form-label">Email address</label>
-                    <input type="email" class="form-control" id="email" >
+                    <input type="email" class="form-control" id="email" th:field="*{email}" >
                 </div>
                 <div class="mb-3">
                     <label for="password" class="form-label">Password</label>
-                    <input type="password" class="form-control" id="password">
+                    <input type="password" class="form-control" id="password" th:field="*{pwd}">
                 </div>
                 <button type="submit" class="btn btn-primary w-100">Login</button>
                 <div class="text-center mt-3">

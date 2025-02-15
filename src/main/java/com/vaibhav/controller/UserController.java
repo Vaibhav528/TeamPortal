@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.vaibhav.binding.LoginForm;
 import com.vaibhav.binding.SignUpForm;
 import com.vaibhav.binding.UnlockForm;
 import com.vaibhav.services.UserService;
@@ -127,8 +128,23 @@ public class UserController
 	
 
 	@GetMapping("/login")
-	public String loginPage() 
+	public String loginPage(Model model) 
 	{
+		model.addAttribute("loginForm" , new LoginForm());
+		return "login";
+	}
+	
+	
+	@PostMapping("/login")
+	public String Login(@ModelAttribute("loginForm") LoginForm loginform , Model model) 
+	{
+		String status = userService.login(loginform);
+		if(status .contains("sucess"))
+		{
+			return "redirect:/dashboard";
+		}
+		model.addAttribute(" " , status);
+		
 		return "login";
 	}
 	
@@ -137,6 +153,23 @@ public class UserController
 	@GetMapping("/forgot")
 	public String forgotPwdPage()
 	{
+		return "forgotPwd";
+	}
+	
+	@PostMapping("/forgotPwd")
+	public String forgotPwd(@RequestParam ("email") String email , Model model)
+	{
+		System.out.println(email);
+		
+	      boolean status =userService.forgotPwd(email);
+	      
+	      if(status)
+	      {
+	    	  model.addAttribute("successMsg", "Pwd Sent to your email");
+	      }else {
+	    	  model.addAttribute("errMsg", "Invalid email");
+	      }
+		
 		return "forgotPwd";
 	}
 	
