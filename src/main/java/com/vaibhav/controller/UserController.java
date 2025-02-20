@@ -143,45 +143,49 @@ public class UserController
 		return "login";
 	}
 	
-	@PostMapping("/login")
-	public String login(@ModelAttribute("loginForm") LoginForm loginForm, Model model, HttpSession session) {
-	    // Find user in database
-	    UserDtls user = userDtlsRepo.findByEmailAndPassword(loginForm.getEmail(), loginForm.getPassword());
-
-	    if (user == null) {
-	        model.addAttribute("errMsg", "Invalid email or password.");
-	        return "login"; // Return to login page with error message
-	    }
-
-//	    if (!"active".equalsIgnoreCase(user.getAccountStatus())) {
-//	        model.addAttribute("errMsg", "Account is locked. Check your email.");
+//	@PostMapping("/login")
+//	public String login(@ModelAttribute("loginForm") LoginForm loginForm, Model model, HttpSession session) {
+//	    
+//		
+//		
+//		// Find user in database
+//	    UserDtls user = userDtlsRepo.findByEmailAndPassword(loginForm.getEmail(), loginForm.getPassword());
+//
+//	    if (user == null) {
+//	        model.addAttribute("errMsg", "Invalid email or password.");
+//	        return "login"; // Return to login page with error message
+//	    }
+//
+//	    // Debugging: Print user ID to check if it's retrieved
+//	    System.out.println("User ID from DB: " + user.getUserId());
+//
+//	    // Ensure userId is not null before storing in session
+//	    if (user.getUserId() == null) {
+//	        model.addAttribute("errMsg", "Error: User ID is missing. Contact support.");
 //	        return "login";
 //	    }
-
-	    // Store user in session (optional)
-	    session.setAttribute("loggedInUser", user);
-
-	    return "redirect:/dashboard"; // Redirect to dashboard upon successful login
-	}
-
-
-
-
-	
-	
-//	@PostMapping("/login")
-//	public String Login(@ModelAttribute("loginForm") LoginForm loginform , Model model) 
-//	{
-//		String status = userService.login(loginform);
-//		if(status .contains("sucess"))
-//		{
-//			
-//			return "redirect:/dashboard";
-//		}
-//		model.addAttribute(" " , status);
-//		
-//		return "login";
+// 
+//	    // Store user in session
+//	    session.setAttribute("loggedInUser", user);
+//
+//	    return "redirect:/dashboard"; // Redirect to dashboard upon successful login
 //	}
+
+	@PostMapping("/login")
+	public String login(@ModelAttribute("loginForm") LoginForm loginForm, Model model) 
+	{
+           String status=userService.login(loginForm);
+		
+		if(status.contains("success"))
+		{
+			return "redirect:/dashboard"; 
+		}
+		
+		model.addAttribute("errMsg" , status);
+		return "login";
+	}
+	
+	
 	
 	@GetMapping("/forgot")
 	public String forgotPwdPage()

@@ -7,6 +7,9 @@ public class DashBoardResponse
 {
 
 	private Integer totalEnquriesCnt;
+	
 	private Integer enrollesCnt;
+	
 	private Integer lostCnt;
+	
 }

@@ -17,9 +17,9 @@ import lombok.Data;
 @Table(name="user_Details")
 public class UserDtls 
 {
-	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	private Integer userId;
+	 @Id
+	    @GeneratedValue(strategy = GenerationType.IDENTITY)  // ✅ Auto-generate ID
+	    private Integer userId;
 	
 	private String name;
 	

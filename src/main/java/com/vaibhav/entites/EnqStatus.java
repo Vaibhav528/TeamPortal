@@ -7,12 +7,11 @@ import lombok.Data;
 
 @Entity
 @Data
-@Table(name="Enquriry_status_tbl")
+@Table(name="enquriry_status_tbl")
 public class EnqStatus 
 
 {
 	@Id
-//	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer statusId;
 	private String statusName;
 	

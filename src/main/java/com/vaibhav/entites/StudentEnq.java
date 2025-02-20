@@ -1,6 +1,10 @@
 package com.vaibhav.entites;
 
 import java.util.Date;
+
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -19,12 +23,21 @@ public class StudentEnq
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer enquiryId;
+	
 	private String studentName;
+	
 	private String classMode;
+	
 	private Integer phoneNumber;
+	
 	private String courseName;
+	
 	private String enquiryStatus;
+	
+	@CreationTimestamp
 	private Date createdDate;
+	
+	@UpdateTimestamp
 	private Date updatedDate;
 	
 	@ManyToOne

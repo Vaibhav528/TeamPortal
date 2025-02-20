@@ -27,23 +27,32 @@ public class UserServiceImple implements UserService
 	private HttpSession session;
 	
 	@Override
-	public String login(LoginForm form)
-	{
-		UserDtls entity = 
-				userDtlsRepo.findByEmailAndPassword(form.getEmail(), form.getPassword());
-		if(entity==null)
-		{
-			return "Invalid Credentials";		
-		}
-		if(entity.getAccountStatus().equals("Locked"))
-		{
-			 return "Your Account Locked"; 
-		}
-		// create session and store user data in session
-		session.setAttribute("userId", entity.getUserId());
-		
-		return "Successfull login";	
-		}
+	public String login(LoginForm form) {
+	    // Fetch user from the database
+	    UserDtls entity = userDtlsRepo.findByEmailAndPassword(form.getEmail(), form.getPassword());
+
+	    if (entity == null) {
+	        return "Invalid Credentials";  
+	    }
+
+	    if ("Locked".equalsIgnoreCase(entity.getAccountStatus())) {
+	        return "Your Account is Locked"; 
+	    }
+
+	    // Debugging: Print user ID to confirm it's retrieved properly
+	    System.out.println("User ID from DB: " + entity.getUserId());
+
+	    // Ensure userId is not null before storing in session
+	    if (entity.getUserId() == null) {
+	        return "Error: User ID is missing. Contact Support.";
+	    }
+
+	    // Store user ID in session
+	    session.setAttribute("userId", entity.getUserId());
+
+	    return "success";  
+	}
+
 	 
 	
 	@Override

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -63,31 +63,65 @@
                 <button class="btn btn-danger logout-btn" onclick="logout()">Logout</button>
             </div>
         </nav>
+        
+		  <p th:text="${succMsg}" class="text-success"/>
+		  <p th:text="${errMsg}" class="text-danger"/>
+
+				<h4 class="text-center">Add Student Enquiry Here</h4>
 
     <div class="container">
-        <div class="form-container">
-            <input type="text" class="form-control" placeholder="Student Name">
-            <input type="text" class="form-control" placeholder="Contact Number">
-            
-            <select class="form-control">
-                <option>-Select Class Mode-</option>
-            </select>
-            
-            <select class="form-control">
-                <option>Java Fullstack</option>
-            </select>
-            
-            <select class="form-control">
-                <option>New</option>
-            </select>
-            
-            <button class="btn btn-primary w-100">SUBMIT</button>
-        </div>
+    <form th:action="@{/addEnq}"  th:Object="${formObj}" method="post" class="form-container">
+       <div>
+ 	<label class="form-label">Student Name</label>
+       <input type="text" class="form-control" th:field="*{studentName}" 
+       placeholder="Student Name"/>
+       </div>
         
-        <div class="image-container">
-            <img src=" images/lady.jpeg"  alt="Support Agent"> <!-- Replace with actual image path -->
-        </div>
+       <div class="form-outline mb-4">
+       <label class="form-label">Contact Number</label>
+       <input type="Number" class="form-control" th:field="*{studentPhno}" 
+       placeholder="Student Name"/>
+       </div>
+       
+       <div class="form-outline mb-4">
+       <label class="form-label">Mode</label>
+       <select class="form-control" name="classMode" th:field="*{classMode}" >
+            <option value="">-Select-</option>
+            <option value="Online">Online</option>
+            <option value="Offline">Offline</option>
+        </select>
+       </div>
+        
+		<div class="form-outline mb-4">
+		<label class="form-label">Course</label>
+		<select class="form-select" name="course" th:field="*{courseName}" required>
+            <option value="">-select-</option>
+             <option th:each="course:${courseNames}" 
+             th:value="${course}"th:text="${course}"/>
+             
+        </select>
+		</div>
+        
+        <div class="form-outline mb-4">
+		<label class="form-label">Enquiry Status</label>
+		<select class="form-select" name="course" th:field="*{enqStatus}" required>
+            <option value="">-select-</option>
+             <option th:each="status : ${statusNames}" 
+             th:value="${status}" th:text="${status}"/>
+             
+        </select>
+		</div>
+
+		<div>
+		<button type="submit" class="btn btn-primary w-100">SUBMIT</button>
+		</div>
+        
+    </form>
+    <div class="image-container">
+        <img src="images/lady.jpeg" alt="Support Agent">
     </div>
+</div>
+
     
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
 </body>

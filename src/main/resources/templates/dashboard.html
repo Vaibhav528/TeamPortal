@@ -1,5 +1,5 @@
-<!DOCTYPE html>
-<html>
+<!DOCTYPE html> 
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -34,7 +34,7 @@
         }
     </style>
     
-     <script>
+    <script>
         function logout() {
             window.location.href = "/logout";
         }
@@ -43,47 +43,39 @@
 </head>
 <body>
 
- <nav class="navbar navbar-expand-lg bg-body-tertiary">
-            <div class="container-fluid">
-                <a class="navbar-brand" href="#">
-                    <img alt="" src="images/image.png"/>
-                </a>
-                <button class="navbar-toggler" type="button" 
-                        data-bs-toggle="collapse" 
-                        data-bs-target="#navbarSupportedContent" 
-                        aria-controls="navbarSupportedContent" 
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-     
-                        <li class="nav-item"><a class="nav-link" href="enquiry">Add-Enquiry</a></li>
-                        <li class="nav-item"><a class="nav-link" href="enquires">View-Enquires</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#">Contact Us</a></li>
-                    </ul>
-                </div>
-                <button class="btn btn-danger logout-btn" onclick="logout()">Logout</button>
+    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">
+                <img alt="Logo" src="images/image.png"/>
+            </a>
+            <button class="navbar-toggler" type="button" 
+                    data-bs-toggle="collapse" 
+                    data-bs-target="#navbarSupportedContent" 
+                    aria-controls="navbarSupportedContent" 
+                    aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item"><a class="nav-link" href="enquiry">Add-Enquiry</a></li>
+                    <li class="nav-item"><a class="nav-link" href="enquires">View-Enquires</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">Contact Us</a></li>
+                </ul>
             </div>
-        </nav>
+            <button class="btn btn-danger logout-btn" onclick="logout()">Logout</button>
+        </div>
+    </nav>
 
     <div class="container">
         
         <div class="card">
             <h4 class="text-center">Your Performance</h4>
-            <p class="performance-text">Total Enquiries: <span>256</span></p>
-            <p class="performance-text enrolled">Enrolled: <span>84</span></p>
-            <p class="performance-text lost">Lost: <span>172</span></p>
-        </div>
-        
-        <div class="col-lg-6 d-flex align-items-center gradient">
-        
-        
+            <p class="performance-text">Total Enquiries: <span th:text="${dashboardData != null ? dashboardData.totalEnquriesCnt : '0'}"></span></p>
+            <p class="performance-text enrolled">Enrolled: <span th:text="${dashboardData != null ? dashboardData.enrolledCnt : '0'}"></span></p>
+            <p class="performance-text lost">Lost: <span th:text="${dashboardData != null ? dashboardData.lostCnt : '0'}"></span></p>
         </div>
         
     </div>
-    
-   
     
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
 </body>
