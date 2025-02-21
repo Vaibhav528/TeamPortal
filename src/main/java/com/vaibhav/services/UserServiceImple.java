@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import com.vaibhav.binding.LoginForm;
 import com.vaibhav.binding.SignUpForm;
 import com.vaibhav.binding.UnlockForm;
+import com.vaibhav.constants.AppConstants;
 import com.vaibhav.entites.UserDtls;
 import com.vaibhav.repo.UserDtlsRepository;
 import com.vaibhav.utility.EmailUtils;
@@ -32,11 +33,11 @@ public class UserServiceImple implements UserService
 	    UserDtls entity = userDtlsRepo.findByEmailAndPassword(form.getEmail(), form.getPassword());
 
 	    if (entity == null) {
-	        return "Invalid Credentials";  
+	        return AppConstants.INVALID_CREDENTIALS_MSG;  
 	    }
 
-	    if ("Locked".equalsIgnoreCase(entity.getAccountStatus())) {
-	        return "Your Account is Locked"; 
+	    if (AppConstants.STR_LOCKED.equalsIgnoreCase(entity.getAccountStatus())) {
+	        return AppConstants.ACCOUNT_LOCKED_STATUS; 
 	    }
 
 	    // Debugging: Print user ID to confirm it's retrieved properly
@@ -44,13 +45,13 @@ public class UserServiceImple implements UserService
 
 	    // Ensure userId is not null before storing in session
 	    if (entity.getUserId() == null) {
-	        return "Error: User ID is missing. Contact Support.";
+	        return AppConstants.USER_ID_ERROR;
 	    }
 
 	    // Store user ID in session
-	    session.setAttribute("userId", entity.getUserId());
+	    session.setAttribute(AppConstants.STR_USER_ID, entity.getUserId());
 
-	    return "success";  
+	    return AppConstants.USER_LOGIN_SUCCESS; 
 	}
 
 	 
@@ -62,7 +63,7 @@ public class UserServiceImple implements UserService
 		if(entity.getPassword().equals(form.getTempPwd()))
 		{
 			entity.setPassword(form.getNewPwd());
-			entity.setAccountStatus("Unlocked");
+			entity.setAccountStatus(AppConstants.STR_UNLOCKED);
 			userDtlsRepo.save(entity);
 			return true;
 		}else {
@@ -92,7 +93,7 @@ public class UserServiceImple implements UserService
 		
 		// set account status locked.
 		
-		entity.setAccountStatus("Locked");
+		entity.setAccountStatus(AppConstants.STR_LOCKED);
 		
 		// Insert Record.    
 		
@@ -100,7 +101,7 @@ public class UserServiceImple implements UserService
 		
 		// Send email to unlock the account
         String to = form.getEmail();
-        String subject = "Unlock Your Account";
+        String subject = AppConstants.UNLOCK_EMAIL_SUBJECT;
         StringBuilder body = new StringBuilder();
         body.append("<h1>Use the temporary password below to unlock your account</h1>")
             .append("<p>Temporary Password: <strong>").append(tempPwd).append("</strong></p>")
@@ -127,7 +128,7 @@ public class UserServiceImple implements UserService
 		}
 		 
 		//if record available then send password to mail.
-		 String Subject="Recover Password";
+		 String Subject=AppConstants.RECOVER_SUBJECT_PASSWORD;
 		 String body="Your Pwd::" + entity.getPassword();
 		 emailUtils.sendEmail(email, Subject, body);
 		 

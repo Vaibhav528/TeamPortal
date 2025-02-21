@@ -5,6 +5,7 @@ import java.util.List;
 import com.vaibhav.binding.DashBoardResponse;
 import com.vaibhav.binding.EnquiryFilter;
 import com.vaibhav.binding.EnquiryForm;
+import com.vaibhav.entites.StudentEnq;
 
 public interface EnquiryService
 {
@@ -17,12 +18,16 @@ public interface EnquiryService
 	
 	public boolean saveEnquriry(EnquiryForm form);
 	
+	public List<StudentEnq> getEnquiries();
+	
+	public List<StudentEnq> getFilterEnqs(Integer userID, EnquiryFilter filter);
+	
 //	public String upsertEnqiry(EnquiryForm form);
 //	
-//	public List<EnquiryForm> getEnquries(Integer userID, 
-//			EnquiryFilter criteria);
+//	public List<StudentEnq> getFilterEnqs(Integer userID, 
+//			EnquiryFilter filter);
 //	
 //	public EnquiryForm getEnquiry(Integer enqId); // Method for Edit Enquiry(Edit Button).
 
 }
- 
+  

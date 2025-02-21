@@ -1,5 +1,12 @@
 package com.vaibhav.binding;
 
-public class EnquiryFilter {
+import lombok.Data;
 
+@Data
+public class EnquiryFilter 
+{
+
+	private String courseName;
+	private String classMode;
+	private String enquiryStatus;
 }

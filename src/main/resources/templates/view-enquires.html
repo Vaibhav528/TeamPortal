@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -7,6 +7,8 @@
     
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" 
           rel="stylesheet" crossorigin="anonymous">
+    
+    <script src="/webjars/jquery/3.7.1/jquery.min.js"></script>
     
     <style>
         .container {
@@ -24,6 +26,41 @@
         function logout() {
             window.location.href = "/logout";
         }
+         // AJAX Code.
+         
+         $(document).ready(function()
+         {
+        	 $(".form-select").on("change", function(e) {
+        		 
+        		 var cname = $("#cname").val();
+        		// console.log("Cname:"+cname);
+        		 var status = $("#status").val();
+        		// console.log("Status" + status);
+        		 var mode = $("#mode").val();
+        	//	 console.lod("Mode"+mode);
+        	
+        	$.ajax({
+        		
+        		type:"GET",
+        		url : "filter-enquiries",
+        		data : {
+        			
+        			cname: $("#cname").val(),
+        		    mode: $("#mode").val(),
+        			status: $("#status").val(),
+        		},
+        		success : function(result){
+        			$("#enqTbl").hide();
+        			$("#filterTable").html(result);
+        		}
+        	});
+        	
+        	 });
+         });
+        
+        
+        
+        
     </script>
     
 </head>
@@ -43,7 +80,7 @@
                 </button>
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-     
+                       <li class="nav-item"><a class="nav-link" href="dashboard">Home</a></li>
                         <li class="nav-item"><a class="nav-link" href="enquiry">Add-Enquiry</a></li>
                         <li class="nav-item"><a class="nav-link" href="enquires">View-Enquires</a></li>
                         <li class="nav-item"><a class="nav-link" href="#">Contact Us</a></li>
@@ -58,66 +95,63 @@
         
         <div class="row mb-3">
             <div class="col-md-4">
-                <label for="course">Course</label>
-                <select class="form-control" id="course">
+                <label class="form-label" for="cname">Course</label>
+                <select class="form-select" id="cname">
                     <option>-Select-</option>
+                    <option th:each= "course :${courseName}" th:text="${course}"></option>
                 </select>
             </div>
+            
             <div class="col-md-4">
-                <label for="status">Enquiry Status</label>
-                <select class="form-control" id="status">
+                <label class="form-label" for="status">Enquiry Status</label>
+                <select class="form-select" id="status">
                     <option>-Select-</option>
+                    <option th:each ="status : ${statusNames}"
+                    th:value="${status}" th:text="${status}"></option>
                 </select>
             </div>
+            
             <div class="col-md-4">
-                <label for="mode">Class Mode</label>
-                <select class="form-control" id="mode">
+                <label  class="form-label" for="mode">Class Mode</label>
+                <select class="form-select" id="mode">
                     <option>-Select-</option>
+                    <option value="online"> online</option>
+                    <option value="offline">Offline</option>
                 </select>
             </div>
         </div>
         
-        <table class="table table-bordered">
+        <div id="filterTable"></div>
+         
+        <table class="table table-bordered" id="enqTbl">
             <thead>
                 <tr>
-                    <th>#</th>
-                    <th>Name</th>
-                    <th>Course</th>
-                    <th>Number</th>
-                    <th>Enquiry Date</th>
-                    <th>Status</th>
-                    <th>Action</th>
+                    <th scope="col">#</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Course</th>
+                    <th scope="col">Number</th>
+                    <th scope="col">Enquiry Date</th>
+                    <th scope="col">Status</th>
+                    <th scope="col">Action</th>
                 </tr>
             </thead>
-            <tbody>
-                <tr>
-                    <td>1</td>
-                    <td>Mark</td>
-                    <td>Java Fullstack</td>
-                    <td>+91 - 79797979</td>
-                    <td>13-Mar-2023</td>
-                    <td>New</td>
-                    <td><button class="btn btn-primary">EDIT</button></td>
-                </tr>
-                <tr>
-                    <td>2</td>
-                    <td>Steve</td>
-                    <td>DevOps</td>
-                    <td>+91 - 79797979</td>
-                    <td>12-Mar-2023</td>
-                    <td>Enrolled</td>
-                    <td><button class="btn btn-primary">EDIT</button></td>
-                </tr>
-                <tr>
-                    <td>3</td>
-                    <td>David</td>
-                    <td>React JS</td>
-                    <td>+91 - 79797979</td>
-                    <td>11-Mar-2023</td>
-                    <td>Lost</td>
-                    <td><button class="btn btn-primary">EDIT</button></td>
-                </tr>
+            
+            
+            <tbody id="table-body">
+            <tr th:each="enq : ${enquiries}">
+            <td th:text="${enqStat.index} +1 "></td>
+            <td th:text="${enq.studentName}"></td>
+            <td th:text="${enq.courseName}"></td>
+            <td th:text="${enq.phoneNumber}"></td>
+            <td th:text="${enq.createdDate}"></td>
+            <td th:text="${enq.enquiryStatus}"></td>
+            <td th:text="${enq.classMode}"></td>
+            <td > <a th:href="@{/edit}" >Edit</a></td>
+            
+            </tr>
+                
             </tbody>
+            
         </table>
     </div>
     

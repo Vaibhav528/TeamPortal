@@ -10,7 +10,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.vaibhav.binding.DashBoardResponse;
+import com.vaibhav.binding.EnquiryFilter;
 import com.vaibhav.binding.EnquiryForm;
+import com.vaibhav.constants.AppConstants;
 import com.vaibhav.entites.*;
 import com.vaibhav.repo.*;
 
@@ -104,7 +106,7 @@ public class EnquiryServiceImple implements EnquiryService
 		StudentEnq enqEntity =  new StudentEnq();
 		BeanUtils.copyProperties(form,enqEntity);
 		
-		Integer userId= (Integer) session.getAttribute("userId");
+		Integer userId= (Integer) session.getAttribute(AppConstants.STR_USER_ID);
 		UserDtls userEntity = userDtlsRepo.findById(userId).get();
 		enqEntity.setUser(userEntity);
 		
@@ -113,6 +115,61 @@ public class EnquiryServiceImple implements EnquiryService
 		return true;
 	}
 	    
+	@Override
+	public List<StudentEnq> getEnquiries()
+	{
+		Integer userId=(Integer) session.getAttribute(AppConstants.STR_USER_ID);
+		Optional<UserDtls> findById = userDtlsRepo.findById(userId);
+		if(findById.isPresent())
+		{
+			UserDtls userDtls = findById.get();
+			List<StudentEnq> enquiries = userDtls.getEnquiries();
+			return enquiries;
+		}
+		return null;
+	}
+	
+	@Override
+	public List<StudentEnq> getFilterEnqs(Integer userId, EnquiryFilter filter)
+	{
+		Optional<UserDtls> findById = userDtlsRepo.findById(userId);
+		if(findById.isPresent())
+		{
+			UserDtls userDtls = findById.get();
+			List<StudentEnq> enquiries = userDtls.getEnquiries();
+			
+			// Filter logic
+			
+			if(null!=filter.getCourseName() & !"".equals(filter.getCourseName()))
+			{
+				enquiries= enquiries.stream()
+				.filter(e -> e.getCourseName() .equals(filter.getCourseName()))
+				.collect(Collectors.toList());
+			}
+			
+			if(null!=filter.getClassMode() & !"".equals(filter.getClassMode()))
+			{
+				enquiries= enquiries.stream()
+				.filter(e -> e.getClassMode() .equals(filter.getClassMode()))
+				.collect(Collectors.toList());
+			}
+			
+			if(null!=filter.getEnquiryStatus() & !"".equals(filter.getEnquiryStatus()))
+			{
+				enquiries= enquiries.stream()
+				.filter(e -> e.getEnquiryStatus() .equals(filter.getEnquiryStatus()))
+				.collect(Collectors.toList());
+			}
+			
+			return enquiries;
+		}
+		
+		return null;
+	}
+	
+	
+	
+	
 }
 
 		
