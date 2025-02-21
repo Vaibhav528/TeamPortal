@@ -70,10 +70,10 @@
         
         <div class="card">
             <h4 class="text-center">Your Performance</h4>
-            <p class="performance-text">Total Enquiries: <span th:text="${dashboardData != null ? dashboardData.totalEnquriesCnt : '0'}"></span></p>
-            <p class="performance-text enrolled">Enrolled: <span th:text="${dashboardData != null ? dashboardData.enrolledCnt : '0'}"></span></p>
-            <p class="performance-text lost">Lost: <span th:text="${dashboardData != null ? dashboardData.lostCnt : '0'}"></span></p>
-        </div>
+            <p class="performance-text">Total Enquiries: <span th:text="${dashboradData.totalEnquriesCnt}"></span></p>
+			<p class="performance-text enrolled">Enrolled: <span th:text="${dashboradData.enrollesCnt}"></span></p>
+			<p class="performance-text lost">Lost: <span th:text="${dashboradData.lostCnt}"></span></p>
+   </div>
         
     </div>
     

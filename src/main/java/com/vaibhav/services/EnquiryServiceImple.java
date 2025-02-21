@@ -37,8 +37,7 @@ public class EnquiryServiceImple implements EnquiryService
 	@Override
 	public DashBoardResponse getDashboardData(Integer userId) 
 	{
-//		// 🛑 Null Check
-//	    if (userId == null) {
+ //	    if (userId == null) {
 //	        throw new IllegalArgumentException("User ID must not be null");
 //	    }
 
@@ -50,7 +49,7 @@ public class EnquiryServiceImple implements EnquiryService
 	        UserDtls userDtls = optionalUser.get();
 	        List<StudentEnq> enquiries = userDtls.getEnquiries();
 	        
-	        int totalCnt = enquiries.size();
+	        Integer totalCnt = enquiries.size();
 	        
 	      Integer enrolledCnt= enquiries.stream()
 	            .filter(e -> "Enrolled".equals(e.getEnquiryStatus()))

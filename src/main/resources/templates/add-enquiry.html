@@ -54,7 +54,8 @@
                 </button>
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-     
+                    
+    					<li class="nav-item"><a class="nav-link" href="dashboard">Home</a></li>
                         <li class="nav-item"><a class="nav-link" href="enquiry">Add-Enquiry</a></li>
                         <li class="nav-item"><a class="nav-link" href="enquires">View-Enquires</a></li>
                         <li class="nav-item"><a class="nav-link" href="#">Contact Us</a></li>
@@ -70,7 +71,7 @@
 				<h4 class="text-center">Add Student Enquiry Here</h4>
 
     <div class="container">
-    <form th:action="@{/addEnq}"  th:Object="${formObj}" method="post" class="form-container">
+    <form th:action="@{/addEnq}"  th:Object="${formObj}" method="POST" class="form-container">
        <div>
  	<label class="form-label">Student Name</label>
        <input type="text" class="form-control" th:field="*{studentName}" 
@@ -80,7 +81,7 @@
        <div class="form-outline mb-4">
        <label class="form-label">Contact Number</label>
        <input type="Number" class="form-control" th:field="*{studentPhno}" 
-       placeholder="Student Name"/>
+       placeholder="Contact Number"/>
        </div>
        
        <div class="form-outline mb-4">
@@ -97,7 +98,7 @@
 		<select class="form-select" name="course" th:field="*{courseName}" required>
             <option value="">-select-</option>
              <option th:each="course:${courseNames}" 
-             th:value="${course}"th:text="${course}"/>
+             th:value="${course}" th:text="${course}"/>
              
         </select>
 		</div>

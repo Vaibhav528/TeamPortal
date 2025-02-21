@@ -61,7 +61,7 @@ public class EnquiryController
 		}
 		
 		return "add-enquiry";
-	}
+	} 
 
 	@GetMapping("/enquiry")
 	public String addEnquiryPage(Model model)
@@ -82,7 +82,7 @@ public class EnquiryController
 		
 		model.addAttribute("courseNames",courses);
 		model.addAttribute("statusNames",enqStatus );
-		model.addAttribute("formObj",formObj  );
+		model.addAttribute("formObj",formObj);
 		
 		return "add-enquiry";
 	}
